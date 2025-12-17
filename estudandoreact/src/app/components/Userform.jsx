@@ -3,48 +3,41 @@
 import { useState } from 'react'
 import { createUser } from '../services/api'
 
-export function UserForm({ onUserAdded }) {
+export function UserForm({ onSaved }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
 
-    try {
-      const newUser = await createUser({ name, email })
-      onUserAdded(newUser)
-      setName('')
-      setEmail('')
-    } catch (error) {
-      alert(error.message)
-    } finally {
-      setLoading(false)
+    const createdUser = await createUser({
+      name,
+      email,
+    })
+
+    setName('')
+    setEmail('')
+
+    if (onSaved) {
+      onSaved(createdUser)
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
         placeholder="Nome"
         value={name}
         onChange={e => setName(e.target.value)}
-        required
       />
 
       <input
-        type="email"
         placeholder="Email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        required
       />
 
-      <button type="submit" disabled={loading}>
-        {loading ? 'Salvando...' : 'Salvar'}
-      </button>
+      <button>Salvar</button>
     </form>
   )
 }

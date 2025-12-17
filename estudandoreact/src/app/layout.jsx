@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Minha App',
-  description: 'App com Next.js e API',
+  title: 'Meu Form',
+  description: 'Form com Next.js e API',
 }
 
 export default function RootLayout({ children }) {
